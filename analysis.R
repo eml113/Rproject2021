@@ -5,10 +5,12 @@ source("supportingFunctions.R")
 # Installing packages
 library(ggplot2)
 library(cowplot)
+library(RColorBrewer)
+library(dplyr)
 
 # Compile all data into a .csv file
-countryXdf=read.csv("~/Desktop/practicedirectory/countryX/csvCombine",header=TRUE)
-countryYdf=read.csv("~/Desktop/practicedirectory/countryY/csvCombine",header=TRUE)
+countryXdf=read.csv("~/Desktop/Rproject2021/countryX/csvCombine",header=TRUE)
+countryYdf=read.csv("~/Desktop/Rproject2021/countryY/csvCombine",header=TRUE)
 allData=rbind(countryXdf,countryYdf)
 
 # Process data to answer questions and provide graphical evidence
@@ -56,5 +58,24 @@ outbreakFigure
 # This is because the number of cases was higher initially and increased more rapidly at the beginning in Country X.
 # In Country Y, however, there was a lag to the increase and cases were low or nonexistent at the beginning.
 
-## If Country Y develops a vaccine for the disease, is it likely to work for Country X?
-# Focused on the end of data (types and strains of bacteria in countries now)
+# If Country Y develops a vaccine for the disease, is it likely to work for Country X?
+
+# Focus on end of data, looking at the markers prevalent in bacteria now
+Xmarkers = countryXdf[countryXdf$dayofYear==175,c(3:12)]
+Ymarkers = countryYdf[countryYdf$dayofYear==175,c(3:12)]
+
+# Get sum of individual markers 
+sumMarkersX = mapply(sum, Xmarkers)
+sumMarkersY = mapply(sum, Ymarkers)
+
+# Create two pie charts:
+# Prepare a color palette
+myPalette <- brewer.pal(10, "Set3") 
+
+# Create Pie Chart
+pie(sumMarkersX, border="white", col=myPalette, main = "Country X Markers") 
+pie(sumMarkersY, border = "white", col=myPalette, main = "Country Y Markers")
+
+# As the pie charts show, the markers in bacteria in Country X are different from those present in the bacteria
+# in Country Y by day 175. Thus, it is likely that any vaccine that Country Y develops will be ineffective against 
+# the different strains of the bacteria present in Country X. 
