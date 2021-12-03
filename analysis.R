@@ -9,9 +9,23 @@ library(RColorBrewer)
 library(dplyr)
 
 # Compile all data into a .csv file
+<<<<<<< HEAD
 countryXdf=read.csv("~/Desktop/Rproject2021/countryX/csvCombine",header=TRUE)
 countryYdf=read.csv("~/Desktop/Rproject2021/countryY/csvCombine",header=TRUE)
 allData=rbind(countryXdf,countryYdf)
+=======
+# dir X is to the csvCombine for country X
+# dir Y is to the csvCombine for country Y
+# desiredDir is where the combined file for both countries should go
+
+combineCountries = function(dirX,dirY,desiredDir){
+  countryXdf=read.csv(dirX)
+  countryYdf=read.csv(dirY)
+  countryData=rbind(countryXdf,countryYdf)
+  setwd(desiredDir)
+  write.csv(countryData,file="countryData.csv")
+}
+>>>>>>> 2a37b036ebba4790be879a255173fe0eb0a5dd81
 
 # Process data to answer questions and provide graphical evidence
 
@@ -26,7 +40,6 @@ for (d in 120:175){
   colnames(dailyCases)=c("dayofYear","dailyCases")
   countryXcases=rbind(countryXcases,dailyCases)
 }
-
 countryXcases=na.omit(countryXcases)
 
 # Cases over time in country Y
@@ -39,7 +52,6 @@ for (d in 120:175){
   colnames(dailyCases)=c("dayofYear","dailyCases")
   countryYcases=rbind(countryYcases,dailyCases)
 }
-
 countryYcases=na.omit(countryYcases)
 
 # Plot infections over time in each country (compare on a plot)
