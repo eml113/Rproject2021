@@ -8,6 +8,7 @@ library(readr)
 # Combining all data from the .csv files in each country's directory to one .csv file. Add country and dayofYear columns.
 # Offer options for how to handle the entries with NAs.
 csvCombine = function(dir){
+  setwd(dir)
   # NOTE: directory must be the country's directory
   fileNames=list.files(path=dir, pattern="*.csv", full.names=TRUE)
   directories=dirname(path=fileNames)
